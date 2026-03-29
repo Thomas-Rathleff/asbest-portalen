@@ -16,7 +16,7 @@ export default function Home() {
               <a href="#" className="hover:text-[#f39c12] transition">Videnscenter</a>
               <a href="#" className="hover:text-[#f39c12] transition">Find virksomhed</a>
               <a href="#" className="hover:text-[#f39c12] transition">For virksomheder</a>
-              <a href="#" className="bg-[#e67e22] hover:bg-[#f39c12] px-4 py-2 rounded-lg transition font-semibold">Få gratis tilbud</a>
+              <a href="/tilbud" className="bg-[#e67e22] hover:bg-[#f39c12] px-4 py-2 rounded-lg transition font-semibold">Få gratis tilbud</a>
             </div>
           </div>
         </div>
