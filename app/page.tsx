@@ -1,3 +1,5 @@
+import AddressSearch from "./components/AddressSearch";
+
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
@@ -30,26 +32,8 @@ export default function Home() {
             Indtast din adresse og få en gratis vurdering af om din bolig indeholder asbestholdige materialer. Hurtigt, nemt og uforpligtende.
           </p>
           
-          {/* Søgefelt */}
-          <div className="max-w-2xl mx-auto">
-            <div className="flex flex-col sm:flex-row gap-3">
-              <div className="flex-1 relative">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                  </svg>
-                </div>
-                <input
-                  type="text"
-                  placeholder="Indtast din adresse, f.eks. Vestergade 12, 5000 Odense"
-                  className="w-full pl-12 pr-4 py-4 rounded-xl text-gray-900 text-lg placeholder:text-gray-400 focus:outline-none focus:ring-4 focus:ring-[#e67e22]/30 shadow-lg"
-                />
-              </div>
-              <button className="bg-[#e67e22] hover:bg-[#f39c12] text-white font-bold py-4 px-8 rounded-xl text-lg transition shadow-lg hover:shadow-xl">
-                Tjek nu
-              </button>
-            </div>
-          </div>
+          {/* Søgefelt med live adresseopslag */}
+          <AddressSearch />
 
           {/* Stats */}
           <div className="mt-16 grid grid-cols-3 gap-8 max-w-lg mx-auto">
