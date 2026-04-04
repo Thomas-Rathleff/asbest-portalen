@@ -285,6 +285,24 @@ export default function AddressSearch() {
       {/* Resultat */}
       {result && (
         <div className={`mt-8 rounded-2xl p-8 border-2 ${riskConfig[result.riskLevel].bg} ${riskConfig[result.riskLevel].border} shadow-xl`}>
+          {/* Tilbage til forsiden knap */}
+          <div className="mb-4">
+            <button
+              onClick={() => {
+                setQuery("");
+                setSelectedAddress("");
+                setSelectedPostnr("");
+                setShowForm(false);
+                setResult(null);
+                setBuildYear("");
+                setRoofType("");
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+              className="text-sm text-gray-500 hover:text-gray-800 transition flex items-center gap-1"
+            >
+              ← Søg på en ny adresse
+            </button>
+          </div>
           <div className="text-center mb-6">
             <div className="text-5xl mb-3">{riskConfig[result.riskLevel].emoji}</div>
             <div className={`inline-block px-4 py-2 rounded-full text-white font-bold text-sm ${riskConfig[result.riskLevel].color}`}>
