@@ -43,47 +43,26 @@ export default function FindVirksomhed({ postnr }: { postnr: string }) {
 
   return (
     <div className="mt-6">
-      <h4 className="font-bold text-gray-800 mb-3">
-        Autoriserede asbestvirksomheder nær dig
-      </h4>
-      <div className="space-y-3">
-        {virksomheder.map((v, i) => (
-          <div
-            key={i}
-            className="bg-white rounded-xl p-4 border border-gray-200 flex items-center justify-between shadow-sm"
-          >
-            <div>
-              <div className="font-semibold text-gray-900">{v.navn}</div>
-              <div className="text-sm text-gray-500">
-                {v.postnr} {v.by}
-                {v.afstand_km !== undefined && v.afstand_km < 9999 && (
-                  <span className="ml-2 text-[#e67e22]">~{v.afstand_km} km væk</span>
-                )}
-              </div>
-              <div className="text-xs text-gray-400 mt-0.5">Auth: {v.asbe_nr}</div>
-            </div>
-            <div className="text-right">
-              <div className="text-xs text-gray-400 mb-2">Kontaktinfo</div>
-              <button className="bg-[#e67e22] hover:bg-[#f39c12] text-white text-sm font-semibold py-1.5 px-4 rounded-lg transition">
-                Få tilbud →
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Upsell — fuld adgang kræver abonnement */}
-      <div className="mt-4 bg-[#1a365d] rounded-xl p-4 text-white text-center">
-        <div className="text-sm font-semibold mb-1">
-          🔒 {virksomheder.length} af 1.159 virksomheder vist
+      {virksomheder.length > 0 ? (
+        <div className="bg-green-50 border-2 border-green-200 rounded-2xl p-6 text-center shadow-sm">
+          <div className="text-4xl mb-3">✅</div>
+          <h4 className="text-xl font-bold text-gray-900 mb-2">
+            Der er fundet {virksomheder.length} godkendte virksomheder der matcher din forespørgsel
+          </h4>
+          <p className="text-gray-600 text-lg">
+            Du bliver kontaktet af en virksomhed inden for <strong>1–3 hverdage</strong>.
+          </p>
+          <p className="text-sm text-gray-400 mt-3">
+            Alle virksomheder er autoriseret af Sikkerhedsstyrelsen til fjernelse af asbest.
+          </p>
         </div>
-        <div className="text-xs text-blue-200 mb-3">
-          Er du asbestvirksomhed? Få din profil vist og modtag leads direkte.
+      ) : (
+        <div className="bg-yellow-50 border-2 border-yellow-200 rounded-2xl p-6 text-center">
+          <div className="text-4xl mb-3">⚠️</div>
+          <h4 className="text-lg font-bold text-gray-900 mb-2">Ingen virksomheder fundet i dit område</h4>
+          <p className="text-gray-600">Prøv at kontakte os direkte — vi hjælper dig videre.</p>
         </div>
-        <button className="bg-[#e67e22] hover:bg-[#f39c12] text-white text-sm font-bold py-2 px-6 rounded-lg transition">
-          Tilmeld din virksomhed →
-        </button>
-      </div>
+      )}
     </div>
   );
 }
