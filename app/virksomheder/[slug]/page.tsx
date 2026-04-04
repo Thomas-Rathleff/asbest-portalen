@@ -24,7 +24,7 @@ export default function Page({ params }: { params: { slug: string } }) {
       <section className="bg-gradient-to-br from-[#1a365d] to-[#2a4a7f] text-white py-16">
         <div className="max-w-4xl mx-auto px-4">
           <div className="flex items-start gap-6">
-            <div className="w-20 h-20 bg-[#e67e22] rounded-2xl flex items-center justify-center text-3xl font-bold flex-shrink-0">{v.asbe_nr.charAt(0)}</div>
+            <div className="w-20 h-20 bg-[#e67e22] rounded-2xl flex items-center justify-center text-3xl font-bold flex-shrink-0">{(v.navn || v.asbe_nr || "A").charAt(0)}</div>
             <div>
               <h1 className="text-3xl font-extrabold mb-2">{v.navn || "Autoriseret asbestvirksomhed"}</h1>
               <p className="text-blue-200 text-lg">{v.adresse}, {v.postnr} {v.by}</p>
