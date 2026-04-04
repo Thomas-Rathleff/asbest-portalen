@@ -22,10 +22,13 @@ export default function FindVirksomhed({ postnr }: { postnr: string }) {
     if (!navn || !email || !telefon || !samtykke) return;
     setLoading(true);
     try {
-      const res = await fetch(`/api/find-virksomheder?postnr=${postnr}`);
+      const res = await fetch(`/api/indsend-lead`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ navn, telefon, email, postnr }),
+      });
       const data = await res.json();
-      setAntal(data.virksomheder?.length ?? 3);
-      // TODO: gem lead i database (Supabase)
+      setAntal(data.antal ?? 3);
     } catch {
       setAntal(3);
     }
