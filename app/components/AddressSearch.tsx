@@ -35,6 +35,7 @@ export default function AddressSearch() {
   const [buildYear, setBuildYear] = useState("");
   const [roofType, setRoofType] = useState("");
   const [selectedAddress, setSelectedAddress] = useState("");
+  const [selectedPostnr, setSelectedPostnr] = useState("");
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -70,6 +71,7 @@ export default function AddressSearch() {
   async function selectAddress(suggestion: AddressSuggestion) {
     setQuery(suggestion.tekst);
     setSelectedAddress(suggestion.tekst);
+    setSelectedPostnr(suggestion.adresse.postnr);
     setShowSuggestions(false);
     setResult(null);
     setLoading(true);
@@ -150,7 +152,8 @@ export default function AddressSearch() {
     setTimeout(() => {
       setResult({
         address: selectedAddress,
-        postnr: suggestion.adresse.postnr,
+        postnr: selectedPostnr,
+        // udtræk postnr fra strengen
         riskLevel,
         riskScore,
         buildYear: year || null,
