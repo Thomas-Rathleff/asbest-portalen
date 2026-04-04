@@ -15,16 +15,9 @@ function getSlug(v: Virksomhed) {
   return v.asbe_nr?.toLowerCase().replace(/[^a-z0-9]/g, "-") ?? null;
 }
 
-// Dynamisk rendering med fallback
-export const dynamic = "auto";
+// Fuldt dynamisk — ingen pre-build
+export const dynamic = "force-dynamic";
 export const dynamicParams = true;
-
-export async function generateStaticParams() {
-  // Byg kun de første 50 som statiske — resten renderes dynamisk ved første besøg
-  return (virksomheder as Virksomhed[]).slice(0, 50).map((v) => ({
-    slug: getSlug(v) ?? "",
-  })).filter(p => p.slug);
-}
 
 export default function VirksomhedPage({ params }: { params: { slug: string } }) {
   const liste = virksomheder as Virksomhed[];
