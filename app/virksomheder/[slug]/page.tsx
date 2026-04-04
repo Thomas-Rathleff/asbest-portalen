@@ -1,6 +1,7 @@
-import virksomheder from "../../../public/data/virksomheder.json";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import fs from "fs";
+import path from "path";
 
 interface Virksomhed {
   navn: string;
@@ -12,10 +13,12 @@ interface Virksomhed {
 }
 
 export default function VirksomhedPage({ params }: { params: { slug: string } }) {
-  const liste = virksomheder as Virksomhed[];
+  const filePath = path.join(process.cwd(), "public", "data", "virksomheder.json");
+  const liste: Virksomhed[] = JSON.parse(fs.readFileSync(filePath, "utf8"));
   const v = liste.find(v => v.asbe_nr?.toLowerCase().replace(/[^a-z0-9]/g, "-") === params.slug);
 
-  if (!v) return notFound();
+  if (!v) notFound();
+  const virksomhed = v!;
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -35,17 +38,17 @@ export default function VirksomhedPage({ params }: { params: { slug: string } })
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-start gap-6">
             <div className="w-20 h-20 bg-[#e67e22] rounded-2xl flex items-center justify-center text-3xl font-bold flex-shrink-0">
-              {(v.navn || v.asbe_nr || "A").charAt(0).toUpperCase()}
+              {(virksomhed.asbe_nr || "A").charAt(0).toUpperCase()}
             </div>
             <div>
-              <h1 className="text-3xl font-extrabold mb-2">{v.navn || "Autoriseret asbestvirksomhed"}</h1>
-              <p className="text-blue-200 text-lg">{v.adresse}, {v.postnr} {v.by}</p>
-              {v.asbe_nr && (
+              <h1 className="text-3xl font-extrabold mb-2">{virksomhed.navn || "Autoriseret asbestvirksomhed"}</h1>
+              <p className="text-blue-200 text-lg">{virksomhed.adresse}, {virksomhed.postnr} {virksomhed.by}</p>
+              {virksomhed.asbe_nr && (
                 <div className="mt-3 inline-flex items-center gap-2 bg-[#27ae60] px-4 py-2 rounded-full text-sm font-bold">
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                   </svg>
-                  Autoriseret · {v.asbe_nr}
+                  Autoriseret · {virksomhed.asbe_nr}
                 </div>
               )}
             </div>
@@ -80,19 +83,19 @@ export default function VirksomhedPage({ params }: { params: { slug: string } })
               <div className="space-y-3 text-sm text-gray-600">
                 <div>
                   <div className="font-semibold text-gray-800">Adresse</div>
-                  <div>{v.adresse}</div>
-                  <div>{v.postnr} {v.by}</div>
+                  <div>{virksomhed.adresse}</div>
+                  <div>{virksomhed.postnr} {virksomhed.by}</div>
                 </div>
-                {v.cvr && (
+                {virksomhed.cvr && (
                   <div>
                     <div className="font-semibold text-gray-800">CVR</div>
-                    <a href={`https://www.cvr.dk/virksomhed/${v.cvr}`} target="_blank" rel="noopener noreferrer" className="text-[#e67e22] hover:underline">{v.cvr} →</a>
+                    <a href={`https://www.cvr.dk/virksomhed/${virksomhed.cvr}`} target="_blank" rel="noopener noreferrer" className="text-[#e67e22] hover:underline">{virksomhed.cvr} →</a>
                   </div>
                 )}
-                {v.asbe_nr && (
+                {virksomhed.asbe_nr && (
                   <div>
                     <div className="font-semibold text-gray-800">Autorisationsnr.</div>
-                    <div className="font-mono">{v.asbe_nr}</div>
+                    <div className="font-mono">{virksomhed.asbe_nr}</div>
                   </div>
                 )}
               </div>
