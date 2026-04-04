@@ -202,10 +202,21 @@ export default function AddressSearch() {
         </div>
       </div>
 
+      {/* Loading spinner mens BBR henter */}
+      {loading && !showForm && (
+        <div className="mt-6 flex items-center gap-3 text-white">
+          <svg className="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+          </svg>
+          <span>Henter oplysninger om din bolig...</span>
+        </div>
+      )}
+
       {/* Byggeår + tagtype formular */}
       {showForm && (
         <div className="mt-6 bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-          <h3 className="text-white font-bold text-lg mb-4">📋 Fortæl os om din bolig</h3>
+          <h3 className="text-white font-bold text-lg mb-4">📋 Bekræft oplysninger om din bolig</h3>
           <div className="grid sm:grid-cols-2 gap-4 mb-4">
             <div>
               <label className="text-blue-200 text-sm font-medium block mb-1">Byggeår</label>
