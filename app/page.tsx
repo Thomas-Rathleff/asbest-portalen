@@ -16,7 +16,7 @@ export default function Home() {
             <div className="hidden md:flex items-center gap-8 text-sm font-medium">
               <a href="#" className="hover:text-[#f39c12] transition">Tjek din bolig</a>
               <a href="#" className="hover:text-[#f39c12] transition">Videnscenter</a>
-              <a href="#" className="hover:text-[#f39c12] transition">Find virksomhed</a>
+              <a href="/virksomheder" className="hover:text-[#f39c12] transition">Find virksomhed</a>
               <a href="#" className="hover:text-[#f39c12] transition">For virksomheder</a>
               <a href="/tilbud" className="bg-[#e67e22] hover:bg-[#f39c12] px-4 py-2 rounded-lg transition font-semibold">Få gratis tilbud</a>
             </div>
@@ -122,12 +122,12 @@ export default function Home() {
           </div>
           <div className="text-center mt-8">
             <a
-              href="https://www.sik.dk/erhverv/virksomheder/autorisation-og-godkendelse/asbestfjernelse"
+              href="https://www.sik.dk/registre/autorisationsregister"
               target="_blank"
               rel="noopener noreferrer"
               className="text-blue-300 hover:text-white text-sm underline transition"
             >
-              Se Sikkerhedsstyrelsens autorisationsregister →
+              Se autorisationsregistret hos Erhvervsstyrelsen →
             </a>
           </div>
         </div>
