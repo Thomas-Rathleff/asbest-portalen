@@ -1,6 +1,6 @@
-"use client";
-import { useEffect, useState } from "react";
+import virksomheder from "../../../public/data/virksomheder.json";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 
 interface Virksomhed {
   navn: string;
@@ -8,47 +8,14 @@ interface Virksomhed {
   postnr: string;
   by: string;
   cvr: string;
-  asbe_nr: string;
+  asbe_nr: string | null;
 }
 
-const SUPABASE_URL = "https://twioszuznfupiqgpwepy.supabase.co";
-const SUPABASE_ANON = "sb_publishable_4rBOIC7oTrSq044J79v2Jg_8iaZrXmZ";
-
 export default function VirksomhedPage({ params }: { params: { slug: string } }) {
-  const [v, setV] = useState<Virksomhed | null>(null);
-  const [fejl, setFejl] = useState(false);
+  const liste = virksomheder as Virksomhed[];
+  const v = liste.find(v => v.asbe_nr?.toLowerCase().replace(/[^a-z0-9]/g, "-") === params.slug);
 
-  useEffect(() => {
-    const asbeNr = params.slug.toUpperCase().replace(/asbe-/i, "ASBE-");
-    fetch(`${SUPABASE_URL}/rest/v1/virksomheder?asbe_nr=eq.${encodeURIComponent(asbeNr)}&select=*`, {
-      headers: {
-        "apikey": SUPABASE_ANON,
-        "Authorization": `Bearer ${SUPABASE_ANON}`,
-      },
-    })
-      .then(r => r.json())
-      .then(data => {
-        if (data && data.length > 0) setV(data[0]);
-        else setFejl(true);
-      })
-      .catch(() => setFejl(true));
-  }, [params.slug]);
-
-  if (fejl) return (
-    <div className="min-h-screen bg-[#f8f9fa] flex items-center justify-center">
-      <div className="text-center">
-        <div className="text-5xl mb-4">🔍</div>
-        <h1 className="text-2xl font-bold text-[#1a365d] mb-2">Virksomhed ikke fundet</h1>
-        <Link href="/virksomheder" className="text-[#e67e22] hover:underline">← Alle virksomheder</Link>
-      </div>
-    </div>
-  );
-
-  if (!v) return (
-    <div className="min-h-screen bg-[#f8f9fa] flex items-center justify-center">
-      <div className="text-[#1a365d] text-lg">Henter oplysninger...</div>
-    </div>
-  );
+  if (!v) return notFound();
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -73,12 +40,14 @@ export default function VirksomhedPage({ params }: { params: { slug: string } })
             <div>
               <h1 className="text-3xl font-extrabold mb-2">{v.navn || "Autoriseret asbestvirksomhed"}</h1>
               <p className="text-blue-200 text-lg">{v.adresse}, {v.postnr} {v.by}</p>
-              <div className="mt-3 inline-flex items-center gap-2 bg-[#27ae60] px-4 py-2 rounded-full text-sm font-bold">
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                </svg>
-                Autoriseret · {v.asbe_nr}
-              </div>
+              {v.asbe_nr && (
+                <div className="mt-3 inline-flex items-center gap-2 bg-[#27ae60] px-4 py-2 rounded-full text-sm font-bold">
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                  </svg>
+                  Autoriseret · {v.asbe_nr}
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -120,10 +89,12 @@ export default function VirksomhedPage({ params }: { params: { slug: string } })
                     <a href={`https://www.cvr.dk/virksomhed/${v.cvr}`} target="_blank" rel="noopener noreferrer" className="text-[#e67e22] hover:underline">{v.cvr} →</a>
                   </div>
                 )}
-                <div>
-                  <div className="font-semibold text-gray-800">Autorisationsnr.</div>
-                  <div className="font-mono">{v.asbe_nr}</div>
-                </div>
+                {v.asbe_nr && (
+                  <div>
+                    <div className="font-semibold text-gray-800">Autorisationsnr.</div>
+                    <div className="font-mono">{v.asbe_nr}</div>
+                  </div>
+                )}
               </div>
             </div>
             <div className="bg-[#1a365d] rounded-xl p-6 text-white text-center">
