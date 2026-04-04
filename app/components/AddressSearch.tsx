@@ -65,12 +65,39 @@ export default function AddressSearch() {
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
-  function selectAddress(suggestion: AddressSuggestion) {
+  async function selectAddress(suggestion: AddressSuggestion) {
     setQuery(suggestion.tekst);
     setSelectedAddress(suggestion.tekst);
     setShowSuggestions(false);
-    setShowForm(true);
     setResult(null);
+    setLoading(true);
+
+    // Hent BBR data automatisk
+    try {
+      const res = await fetch(
+        `/api/bbr-lookup?adgangsadresseid=${suggestion.adresse.adgangsadresseid}`
+      );
+      if (res.ok) {
+        const bbr = await res.json();
+        // Udfyld felter automatisk fra BBR
+        if (bbr.byggeaar) setBuildYear(String(bbr.byggeaar));
+        if (bbr.tagmateriale && bbr.tagmateriale !== "Ukendt") {
+          // Map BBR tagmateriale til vores dropdown-værdier
+          const tag = bbr.tagmateriale.toLowerCase();
+          if (tag.includes("eternit") || tag.includes("fibercement")) setRoofType("eternit");
+          else if (tag.includes("bølge")) setRoofType("bølgeplader");
+          else if (tag.includes("tegl")) setRoofType("tegl");
+          else if (tag.includes("tagpap")) setRoofType("tagpap");
+          else if (tag.includes("metal") || tag.includes("stål")) setRoofType("metal");
+          else setRoofType("andet");
+        }
+      }
+    } catch {
+      // BBR fejlede — vis manuelt formular
+    }
+
+    setLoading(false);
+    setShowForm(true);
   }
 
   function analyzeAsbestos() {
