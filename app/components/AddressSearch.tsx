@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
+import FindVirksomhed from "./FindVirksomhed";
 
 interface AddressSuggestion {
   tekst: string;
@@ -15,6 +16,7 @@ interface AddressSuggestion {
 
 interface AsbestResult {
   address: string;
+  postnr: string;
   riskLevel: "high" | "medium" | "low" | "unknown";
   riskScore: number;
   buildYear: number | null;
@@ -148,6 +150,7 @@ export default function AddressSearch() {
     setTimeout(() => {
       setResult({
         address: selectedAddress,
+        postnr: suggestion.adresse.postnr,
         riskLevel,
         riskScore,
         buildYear: year || null,
@@ -284,6 +287,8 @@ export default function AddressSearch() {
               </button>
             </div>
           )}
+
+          <FindVirksomhed postnr={result.postnr} />
         </div>
       )}
     </div>
