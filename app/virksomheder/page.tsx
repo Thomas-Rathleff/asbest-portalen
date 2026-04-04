@@ -1,4 +1,3 @@
-import virksomheder from "../../public/data/virksomheder.json";
 import Link from "next/link";
 
 export const metadata = {
@@ -6,12 +5,34 @@ export const metadata = {
   description: "Find autoriserede asbestvirksomheder i dit område. Alle virksomheder er verificeret i Sikkerhedsstyrelsens register.",
 };
 
-export default function VirksomhederPage() {
-  const liste = virksomheder as { navn: string; adresse: string; postnr: string; by: string; cvr: string; asbe_nr: string | null }[];
+interface Virksomhed {
+  navn: string;
+  adresse: string;
+  postnr: string;
+  by: string;
+  cvr: string;
+  asbe_nr: string;
+}
+
+async function hentVirksomheder(): Promise<Virksomhed[]> {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_KEY;
+  if (!url || !key) return [];
+
+  const res = await fetch(`${url}/rest/v1/virksomheder?select=*&order=by.asc&limit=2000`, {
+    headers: { "apikey": key, "Authorization": `Bearer ${key}` },
+    next: { revalidate: 3600 },
+  });
+
+  if (!res.ok) return [];
+  return res.json();
+}
+
+export default async function VirksomhederPage() {
+  const liste = await hentVirksomheder();
 
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Nav */}
       <nav className="bg-[#1a365d] text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
@@ -23,7 +44,6 @@ export default function VirksomhederPage() {
         </div>
       </nav>
 
-      {/* Hero */}
       <section className="bg-gradient-to-br from-[#1a365d] to-[#2a4a7f] text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl font-extrabold mb-4">Autoriserede asbestvirksomheder</h1>
@@ -33,7 +53,6 @@ export default function VirksomhederPage() {
         </div>
       </section>
 
-      {/* Liste */}
       <section className="py-16 bg-[#f8f9fa] flex-1">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -71,7 +90,6 @@ export default function VirksomhederPage() {
         </div>
       </section>
 
-      {/* Footer */}
       <footer className="bg-[#1a365d] text-white py-8 text-center text-blue-300 text-sm">
         © 2026 Asbest-Portalen. <Link href="/" className="hover:text-white">Tilbage til forsiden</Link>
       </footer>

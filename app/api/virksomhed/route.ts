@@ -1,23 +1,33 @@
 import { NextRequest, NextResponse } from "next/server";
-import virksomheder from "../../../public/data/virksomheder.json";
-
-interface Virksomhed {
-  navn: string;
-  adresse: string;
-  postnr: string;
-  by: string;
-  cvr: string;
-  asbe_nr: string | null;
-}
 
 export async function GET(req: NextRequest) {
   const slug = req.nextUrl.searchParams.get("slug");
   if (!slug) return NextResponse.json({ error: "slug mangler" }, { status: 400 });
 
-  const v = (virksomheder as Virksomhed[]).find(
-    (v) => v.asbe_nr?.toLowerCase().replace(/[^a-z0-9]/g, "-") === slug
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_KEY;
+
+  if (!url || !key) {
+    return NextResponse.json({ error: "Mangler env vars" }, { status: 500 });
+  }
+
+  const res = await fetch(`${url}/rest/v1/virksomheder?asbe_nr=eq.${encodeURIComponent(slug.toUpperCase())}&select=*`,
+    {
+      headers: {
+        "apikey": key,
+        "Authorization": `Bearer ${key}`,
+      },
+    }
   );
 
-  if (!v) return NextResponse.json({ error: "Ikke fundet" }, { status: 404 });
-  return NextResponse.json(v);
+  if (!res.ok) {
+    return NextResponse.json({ error: "DB fejl" }, { status: 502 });
+  }
+
+  const data = await res.json();
+  if (!data || data.length === 0) {
+    return NextResponse.json({ error: "Ikke fundet" }, { status: 404 });
+  }
+
+  return NextResponse.json(data[0]);
 }
