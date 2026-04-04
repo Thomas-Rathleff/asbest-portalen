@@ -247,8 +247,8 @@ export default function Home() {
               <ul className="space-y-2 text-blue-200 text-sm">
                 <li>info@asbest-portalen.dk</li>
                 <li><a href="#" className="hover:text-white transition">Om os</a></li>
-                <li><a href="#" className="hover:text-white transition">Privatlivspolitik</a></li>
-                <li><a href="#" className="hover:text-white transition">Betingelser</a></li>
+                <li><a href="/privatlivspolitik" className="hover:text-white transition">Privatlivspolitik</a></li>
+                <li><a href="/betingelser" className="hover:text-white transition">Betingelser</a></li>
               </ul>
             </div>
           </div>
