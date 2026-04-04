@@ -111,8 +111,8 @@ export default function FindVirksomhed({ postnr }: { postnr: string }) {
     <div className="mt-6 bg-green-50 border-2 border-green-200 rounded-2xl p-6 text-center shadow-sm">
       <div className="text-4xl mb-3">✅</div>
       <h4 className="text-xl font-bold text-gray-900 mb-2">
-        Der er fundet {antal} godkendte virksomheder der matcher din forespørgsel
-      </h4>
+          Der er fundet {antal} godkendte virksomheder der matcher din forespørgsel
+        </h4>
       <p className="text-gray-600 text-lg">
         Du bliver kontaktet inden for <strong>1–3 hverdage</strong>.
       </p>

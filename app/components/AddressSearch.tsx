@@ -219,6 +219,26 @@ export default function AddressSearch() {
         </div>
       )}
 
+      {/* Ny søgning knap */}
+      {(showForm || result) && (
+        <div className="mt-4 text-center">
+          <button
+            onClick={() => {
+              setQuery("");
+              setSelectedAddress("");
+              setSelectedPostnr("");
+              setShowForm(false);
+              setResult(null);
+              setBuildYear("");
+              setRoofType("");
+            }}
+            className="text-blue-200 hover:text-white text-sm underline transition"
+          >
+            ← Søg på en ny adresse
+          </button>
+        </div>
+      )}
+
       {/* Byggeår + tagtype formular */}
       {showForm && (
         <div className="mt-6 bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
