@@ -84,6 +84,53 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ===== TROVÆRDIGHED / AUTORISATION ===== */}
+      <section className="py-12 bg-[#1a365d] text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16 text-center">
+            <div className="flex items-center gap-4">
+              <div className="w-14 h-14 bg-[#e67e22] rounded-full flex items-center justify-center flex-shrink-0">
+                <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+              </div>
+              <div className="text-left">
+                <div className="font-bold text-lg">Kun autoriserede virksomheder</div>
+                <div className="text-blue-200 text-sm">Verificeret i Sikkerhedsstyrelsens register</div>
+              </div>
+            </div>
+            <div className="hidden md:block w-px h-12 bg-blue-700" />
+            <div className="flex items-center gap-4">
+              <div className="w-14 h-14 bg-[#e67e22] rounded-full flex items-center justify-center flex-shrink-0">
+                <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
+              </div>
+              <div className="text-left">
+                <div className="font-bold text-lg">Autorisationsnummer kontrolleres</div>
+                <div className="text-blue-200 text-sm">Hver virksomhed tjekkes inden optagelse</div>
+              </div>
+            </div>
+            <div className="hidden md:block w-px h-12 bg-blue-700" />
+            <div className="flex items-center gap-4">
+              <div className="w-14 h-14 bg-[#e67e22] rounded-full flex items-center justify-center flex-shrink-0">
+                <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" /></svg>
+              </div>
+              <div className="text-left">
+                <div className="font-bold text-lg">Lovpligtig håndtering</div>
+                <div className="text-blue-200 text-sm">Alle opgaver udføres efter BEK 744</div>
+              </div>
+            </div>
+          </div>
+          <div className="text-center mt-8">
+            <a
+              href="https://www.sik.dk/erhverv/virksomheder/autorisation-og-godkendelse/asbestfjernelse"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-300 hover:text-white text-sm underline transition"
+            >
+              Se Sikkerhedsstyrelsens autorisationsregister →
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* ===== FOR HUSEJERE ===== */}
       <section className="py-20 bg-[#f8f9fa]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
