@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
       return { ...v, afstand_km };
     })
     .sort((a, b) => a.afstand_km - b.afstand_km)
-    .slice(0, 5);
+    .slice(0, 3);
 
   // Gem lead i Supabase
   const { error } = await supabase.from("leads").insert({

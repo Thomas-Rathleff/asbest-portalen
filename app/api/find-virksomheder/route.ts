@@ -75,7 +75,7 @@ export async function GET(req: NextRequest) {
   }
 
   // Returner kun 3 nærmeste — begrænset info (ikke CVR, ikke kontaktinfo)
-  const result = sorted.slice(0, 5).map((v) => ({
+  const result = sorted.slice(0, 3).map((v) => ({
     navn: v.navn,
     by: v.by,
     postnr: v.postnr,
