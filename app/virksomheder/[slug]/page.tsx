@@ -8,20 +8,29 @@ interface Virksomhed {
   postnr: string;
   by: string;
   cvr: string;
-  asbe_nr: string | null;
+  asbe_nr: string;
 }
+
+const SUPABASE_URL = "https://twioszuznfupiqgpwepy.supabase.co";
+const SUPABASE_ANON = "sb_publishable_4rBOIC7oTrSq044J79v2Jg_8iaZrXmZ";
 
 export default function VirksomhedPage({ params }: { params: { slug: string } }) {
   const [v, setV] = useState<Virksomhed | null>(null);
   const [fejl, setFejl] = useState(false);
 
   useEffect(() => {
-    fetch(`/api/virksomhed?slug=${params.slug}`)
-      .then((r) => {
-        if (!r.ok) { setFejl(true); return null; }
-        return r.json();
+    const asbeNr = params.slug.toUpperCase().replace(/asbe-/i, "ASBE-");
+    fetch(`${SUPABASE_URL}/rest/v1/virksomheder?asbe_nr=eq.${encodeURIComponent(asbeNr)}&select=*`, {
+      headers: {
+        "apikey": SUPABASE_ANON,
+        "Authorization": `Bearer ${SUPABASE_ANON}`,
+      },
+    })
+      .then(r => r.json())
+      .then(data => {
+        if (data && data.length > 0) setV(data[0]);
+        else setFejl(true);
       })
-      .then((data) => { if (data) setV(data); })
       .catch(() => setFejl(true));
   }, [params.slug]);
 
@@ -50,9 +59,7 @@ export default function VirksomhedPage({ params }: { params: { slug: string } })
               <div className="w-8 h-8 bg-[#e67e22] rounded-lg flex items-center justify-center font-bold text-sm">A</div>
               <span className="text-xl font-bold">Asbest-Portalen</span>
             </Link>
-            <Link href="/virksomheder" className="text-blue-200 hover:text-white text-sm transition">
-              ← Alle virksomheder
-            </Link>
+            <Link href="/virksomheder" className="text-blue-200 hover:text-white text-sm transition">← Alle virksomheder</Link>
           </div>
         </div>
       </nav>
@@ -66,14 +73,12 @@ export default function VirksomhedPage({ params }: { params: { slug: string } })
             <div>
               <h1 className="text-3xl font-extrabold mb-2">{v.navn || "Autoriseret asbestvirksomhed"}</h1>
               <p className="text-blue-200 text-lg">{v.adresse}, {v.postnr} {v.by}</p>
-              {v.asbe_nr && (
-                <div className="mt-3 inline-flex items-center gap-2 bg-[#27ae60] px-4 py-2 rounded-full text-sm font-bold">
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                  </svg>
-                  Autoriseret · {v.asbe_nr}
-                </div>
-              )}
+              <div className="mt-3 inline-flex items-center gap-2 bg-[#27ae60] px-4 py-2 rounded-full text-sm font-bold">
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+                Autoriseret · {v.asbe_nr}
+              </div>
             </div>
           </div>
         </div>
@@ -115,12 +120,10 @@ export default function VirksomhedPage({ params }: { params: { slug: string } })
                     <a href={`https://www.cvr.dk/virksomhed/${v.cvr}`} target="_blank" rel="noopener noreferrer" className="text-[#e67e22] hover:underline">{v.cvr} →</a>
                   </div>
                 )}
-                {v.asbe_nr && (
-                  <div>
-                    <div className="font-semibold text-gray-800">Autorisationsnr.</div>
-                    <div className="font-mono">{v.asbe_nr}</div>
-                  </div>
-                )}
+                <div>
+                  <div className="font-semibold text-gray-800">Autorisationsnr.</div>
+                  <div className="font-mono">{v.asbe_nr}</div>
+                </div>
               </div>
             </div>
             <div className="bg-[#1a365d] rounded-xl p-6 text-white text-center">

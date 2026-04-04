@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Mangler env vars" }, { status: 500 });
   }
 
-  const res = await fetch(`${url}/rest/v1/virksomheder?asbe_nr=eq.${encodeURIComponent(slug.toUpperCase())}&select=*`,
+  const res = await fetch(`${url}/rest/v1/virksomheder?asbe_nr=eq.${encodeURIComponent(slug.toUpperCase().replace("asbe-", "ASBE-"))}&select=*`,
     {
       headers: {
         "apikey": key,
