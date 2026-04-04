@@ -11,19 +11,17 @@ interface Virksomhed {
   asbe_nr: string | null;
 }
 
-function getSlug(v: Virksomhed, i: number) {
-  return v.asbe_nr?.toLowerCase().replace(/[^a-z0-9]/g, "-") ?? `virksomhed-${i}`;
+function getSlug(v: Virksomhed) {
+  return v.asbe_nr?.toLowerCase().replace(/[^a-z0-9]/g, "-") ?? null;
 }
 
-export async function generateStaticParams() {
-  return (virksomheder as Virksomhed[]).map((v, i) => ({ slug: getSlug(v, i) }));
-}
+// Dynamisk rendering — ingen pre-build af 1159 sider
+export const dynamic = "force-dynamic";
 
 export default function VirksomhedPage({ params }: { params: { slug: string } }) {
   const liste = virksomheder as Virksomhed[];
-  const idx = liste.findIndex((v, i) => getSlug(v, i) === params.slug);
-  if (idx === -1) notFound();
-  const v = liste[idx];
+  const v = liste.find((v) => getSlug(v) === params.slug);
+  if (!v) notFound();
 
   return (
     <div className="flex flex-col min-h-screen">
