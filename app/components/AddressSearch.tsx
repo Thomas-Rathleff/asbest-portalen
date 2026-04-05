@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import FindVirksomhed from "./FindVirksomhed";
+import Luftfoto from "./Luftfoto";
 
 interface AddressSuggestion {
   tekst: string;
@@ -36,6 +37,7 @@ export default function AddressSearch() {
   const [roofType, setRoofType] = useState("");
   const [selectedAddress, setSelectedAddress] = useState("");
   const [selectedPostnr, setSelectedPostnr] = useState("");
+  const [selectedAdgangsadresseid, setSelectedAdgangsadresseid] = useState("");
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -72,6 +74,7 @@ export default function AddressSearch() {
     setQuery(suggestion.tekst);
     setSelectedAddress(suggestion.tekst);
     setSelectedPostnr(suggestion.adresse.postnr);
+    setSelectedAdgangsadresseid(suggestion.adresse.adgangsadresseid);
     setShowSuggestions(false);
     setResult(null);
     setLoading(true);
@@ -292,6 +295,7 @@ export default function AddressSearch() {
                 setQuery("");
                 setSelectedAddress("");
                 setSelectedPostnr("");
+                setSelectedAdgangsadresseid("");
                 setShowForm(false);
                 setResult(null);
                 setBuildYear("");
@@ -302,6 +306,16 @@ export default function AddressSearch() {
             >
               ← Søg på en ny adresse
             </button>
+          </div>
+
+          {/* Luftfoto */}
+          <div className="mb-6">
+            <Luftfoto
+              adresse={result.address.split(",")[0]}
+              postnr={result.postnr}
+              by={result.address.split(",")[1]?.trim().replace(/^\d{4}\s*/, "") || ""}
+              adgangsadresseid={selectedAdgangsadresseid}
+            />
           </div>
           <div className="text-center mb-6">
             <div className="text-5xl mb-3">{riskConfig[result.riskLevel].emoji}</div>
