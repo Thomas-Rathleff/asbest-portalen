@@ -5,31 +5,12 @@ export const metadata = {
   description: "Find autoriserede asbestvirksomheder i dit område. Alle virksomheder er verificeret i Sikkerhedsstyrelsens register.",
 };
 
-interface Virksomhed {
-  navn: string;
-  adresse: string;
-  postnr: string;
-  by: string;
-  cvr: string;
-  asbe_nr: string;
-}
+import virksomheder from "../../public/data/virksomheder.json";
 
-async function hentVirksomheder(): Promise<Virksomhed[]> {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_KEY;
-  if (!url || !key) return [];
+interface V { navn: string; adresse: string; postnr: string; by: string; cvr: string; asbe_nr: string | null; }
 
-  const res = await fetch(`${url}/rest/v1/virksomheder?select=*&order=by.asc&limit=2000`, {
-    headers: { "apikey": key, "Authorization": `Bearer ${key}` },
-    next: { revalidate: 3600 },
-  });
-
-  if (!res.ok) return [];
-  return res.json();
-}
-
-export default async function VirksomhederPage() {
-  const liste = await hentVirksomheder();
+export default function VirksomhederPage() {
+  const liste = virksomheder as V[];
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -59,16 +40,11 @@ export default async function VirksomhederPage() {
             {liste.map((v, i) => {
               const slug = v.asbe_nr?.toLowerCase().replace(/[^a-z0-9]/g, "-") ?? `virksomhed-${i}`;
               return (
-                <Link
-                  key={i}
-                  href={`/virksomheder/${slug}`}
-                  className="bg-white rounded-xl shadow-sm hover:shadow-lg transition p-6 border border-gray-100 flex flex-col gap-3"
-                >
+                <Link key={i} href={`/virksomheder/${slug}`}
+                  className="bg-white rounded-xl shadow-sm hover:shadow-lg transition p-6 border border-gray-100 flex flex-col gap-3">
                   <div className="flex items-start justify-between">
                     <div>
-                      <div className="font-bold text-[#1a365d] text-lg">
-                        {v.navn || `Virksomhed ${v.asbe_nr}`}
-                      </div>
+                      <div className="font-bold text-[#1a365d] text-lg">{v.navn || `Virksomhed ${v.asbe_nr}`}</div>
                       <div className="text-gray-500 text-sm mt-1">{v.adresse}, {v.postnr} {v.by}</div>
                     </div>
                     <div className="w-10 h-10 bg-[#27ae60] rounded-full flex items-center justify-center flex-shrink-0">
@@ -77,11 +53,7 @@ export default async function VirksomhederPage() {
                       </svg>
                     </div>
                   </div>
-                  {v.asbe_nr && (
-                    <div className="text-xs font-mono bg-blue-50 text-[#1a365d] px-3 py-1 rounded-full w-fit">
-                      {v.asbe_nr}
-                    </div>
-                  )}
+                  {v.asbe_nr && <div className="text-xs font-mono bg-blue-50 text-[#1a365d] px-3 py-1 rounded-full w-fit">{v.asbe_nr}</div>}
                   <div className="text-[#e67e22] text-sm font-semibold mt-auto">Se profil →</div>
                 </Link>
               );
