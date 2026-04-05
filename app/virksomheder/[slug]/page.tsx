@@ -4,11 +4,7 @@ import virksomheder from "../../../public/data/virksomheder.json";
 
 interface V { navn: string; adresse: string; postnr: string; by: string; cvr: string; asbe_nr: string | null; }
 
-export async function generateStaticParams() {
-  return (virksomheder as V[])
-    .filter(v => v.asbe_nr)
-    .map(v => ({ slug: v.asbe_nr!.toLowerCase().replace(/[^a-z0-9]/g, "-") }));
-}
+export const dynamicParams = true;
 
 export default function Page({ params }: { params: { slug: string } }) {
   const liste = virksomheder as V[];
