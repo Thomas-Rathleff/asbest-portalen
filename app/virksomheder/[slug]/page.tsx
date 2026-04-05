@@ -6,13 +6,11 @@ interface V { navn: string; adresse: string; postnr: string; by: string; cvr: st
 
 export const dynamicParams = true;
 
-export default function Page({ params }: { params: { slug: string } }) {
+export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
   const liste = virksomheder as V[];
-  const v = liste.find(v => v.asbe_nr?.toLowerCase().replace(/[^a-z0-9]/g, "-") === params.slug);
+  const v = liste.find(v => v.asbe_nr?.toLowerCase().replace(/[^a-z0-9]/g, "-") === slug);
   if (!v) notFound();
-
-  const lat = 55.68; // bruges kun som placeholder — luftfoto vil bruge korrekte koordinater
-  const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${v.adresse}+${v.postnr}+${v.by}+Danmark&zoom=18&size=600x300&maptype=satellite`;
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -89,4 +87,3 @@ export default function Page({ params }: { params: { slug: string } }) {
     </div>
   );
 }
-// v3
