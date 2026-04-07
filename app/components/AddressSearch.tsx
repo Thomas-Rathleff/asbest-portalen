@@ -334,6 +334,24 @@ export default function AddressSearch() {
             ))}
           </div>
 
+          {/* Eksempelbilleder af bølgeeternit */}
+          {(result.roofMaterial === "bølgeplader" || result.roofMaterial === "eternit") && (
+            <div className="mb-6">
+              <h4 className="font-bold text-gray-800 mb-3">📸 Sådan ser {result.roofMaterial === "bølgeplader" ? "bølgeeternit" : "eternit"} typisk ud:</h4>
+              <div className="grid grid-cols-2 gap-2">
+                {[1,2,3,4].map(n => (
+                  <img
+                    key={n}
+                    src={`/tagtyper/boelgeeternit-${n}.jpg`}
+                    alt={`Bølgeeternit eksempel ${n}`}
+                    className="w-full h-32 object-cover rounded-lg shadow-sm"
+                  />
+                ))}
+              </div>
+              <p className="text-xs text-gray-400 mt-2">Eksempelbilleder af asbestholdige bølgeeternittage</p>
+            </div>
+          )}
+
           {result.riskLevel !== "low" && (
             <div className="bg-white rounded-xl p-6 text-center">
               <p className="text-gray-600 mb-4">Vi anbefaler en professionel vurdering af din bolig</p>
