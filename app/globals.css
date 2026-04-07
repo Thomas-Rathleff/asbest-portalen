@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --brand-blue: #1a365d;
+  --brand-blue-light: #2a4a7f;
+  --brand-orange: #e67e22;
+  --brand-orange-light: #f39c12;
+  --brand-green: #27ae60;
+  --brand-gray: #f8f9fa;
+}
+
+@theme inline {
+  --color-brand-blue: var(--brand-blue);
+  --color-brand-blue-light: var(--brand-blue-light);
+  --color-brand-orange: var(--brand-orange);
+  --color-brand-orange-light: var(--brand-orange-light);
+  --color-brand-green: var(--brand-green);
+  --color-brand-gray: var(--brand-gray);
+  --font-sans: var(--font-inter);
+}
+
+body {
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+}
