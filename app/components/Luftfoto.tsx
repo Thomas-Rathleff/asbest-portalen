@@ -41,7 +41,7 @@ export default function Luftfoto({ adresse, postnr, by, adgangsadresseid }: Prop
 
           const map = L.map(mapRef.current, {
             center: [lat!, lng!],
-            zoom: 19,
+            zoom: 20,
             zoomControl: true,
           });
 
@@ -81,7 +81,7 @@ export default function Luftfoto({ adresse, postnr, by, adgangsadresseid }: Prop
         Luftfoto — {adresse}, {postnr} {by}
       </div>
       <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-      <div ref={mapRef} style={{ height: "350px", width: "100%" }} />
+      <div ref={mapRef} style={{ height: "450px", width: "100%" }} />
       <div className="bg-gray-50 text-xs text-gray-400 px-3 py-1">
         © Esri — Satellitbillede af ejendommen
       </div>
